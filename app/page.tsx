@@ -18,9 +18,13 @@ export default function Home() {
   const queryClient = useQueryClient();
 
   const { data: todos = [] } = useQuery<Todo[]>({
-    queryKey: ["todos"],
-    queryFn: () => fetch("/api/todos").then((res) => res.json()),
-  });
+  queryKey: ["todos"],
+  queryFn: async () => {
+    const res = await fetch("/api/todos");
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  },
+});
 
   const addTodo = useMutation({
     mutationFn: async () => {

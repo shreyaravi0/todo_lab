@@ -34,14 +34,7 @@ export async function GET() {
   try {
     const todos = await prisma.todo.findMany();
 
-    // ✅ Handle empty DB
-    if (todos.length === 0) {
-      return Response.json(
-        { message: "No todos found", data: [] },
-        { status: 200 }
-      );
-    }
-
+    // ✅ ALWAYS return array
     return Response.json(todos);
   } catch (error) {
     console.log(error);
